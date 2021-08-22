@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClientService {
-    private final ClientDao clientDao;
+    private ClientDao clientDao;
 
-    public ClientService() {
-        clientDao = new ClientDao();
+    public ClientService(ClientDao clientDao) {
+        this.clientDao = clientDao;
     }
 
     public List<ClientDto> findAllClients() {

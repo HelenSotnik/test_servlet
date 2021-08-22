@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClientStatusService {
-    private final ClientStatusDao clientStatusDao;
+    private  ClientStatusDao clientStatusDao;
 
-    public ClientStatusService() {
-        clientStatusDao = new ClientStatusDao();
+    public ClientStatusService(ClientStatusDao clientStatusDao) {
+        this.clientStatusDao = clientStatusDao;
     }
 
     public List<ClientStatusDto> findClientNameEmailStatus() {

@@ -1,5 +1,6 @@
 package com.hillel.controller;
 
+import com.hillel.dao.ClientStatusDao;
 import com.hillel.service.ClientStatusService;
 
 import javax.servlet.ServletException;
@@ -10,7 +11,7 @@ import java.io.IOException;
 
 
 public class ClientStatusServlet extends HttpServlet {
-    private final ClientStatusService clientStatusService = new ClientStatusService();
+    private final ClientStatusService clientStatusService = new ClientStatusService(new ClientStatusDao());
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("clientStatuses", clientStatusService.findClientNameEmailStatus());
