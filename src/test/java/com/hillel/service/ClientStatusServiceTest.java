@@ -31,11 +31,11 @@ class ClientStatusServiceTest {
     private void clientStatusInitialization() {
         clientStatus.setClientId(6);
         clientStatus.setStatusId(3);
+        when(clientStatusDao.findNameEmailAlias()).thenReturn(Collections.singletonList(clientStatus));
     }
 
     @Test
     public void findClientNameEmailStatusMethodCheckBySizeCorrectValuesTest() {
-        when(clientStatusDao.findNameEmailAlias()).thenReturn(Collections.singletonList(clientStatus));
         List<ClientStatusDto> actualList = clientStatusService.findClientNameEmailStatus();
 
         assertSame(1, actualList.size());
@@ -43,7 +43,6 @@ class ClientStatusServiceTest {
 
     @Test
     public void findClientNameEmailStatusMethodCheckBySizeIncorrectValuesTest() {
-        when(clientStatusDao.findNameEmailAlias()).thenReturn(Collections.singletonList(clientStatus));
         List<ClientStatusDto> actualList = clientStatusService.findClientNameEmailStatus();
 
         assertNotEquals(90, actualList.size());
@@ -53,7 +52,6 @@ class ClientStatusServiceTest {
 
     @Test
     public void findClientNameEmailStatusMethodCheckByClientIdCorrectValuesTest() {
-        when(clientStatusDao.findNameEmailAlias()).thenReturn(Collections.singletonList(clientStatus));
         List<ClientStatusDto> actualList = clientStatusService.findClientNameEmailStatus();
 
         assertTrue(actualList.get(0).getClientId() == 6);
@@ -61,7 +59,6 @@ class ClientStatusServiceTest {
 
     @Test
     public void findClientNameEmailStatusMethodCheckByClientIdIncorrectValuesTest() {
-        when(clientStatusDao.findNameEmailAlias()).thenReturn(Collections.singletonList(clientStatus));
         List<ClientStatusDto> actualList = clientStatusService.findClientNameEmailStatus();
 
         assertTrue(actualList.get(0).getClientId() != 7);
@@ -71,7 +68,6 @@ class ClientStatusServiceTest {
 
     @Test
     public void findClientNameEmailStatusMethodCheckByStatusIdCorrectValuesTest() {
-        when(clientStatusDao.findNameEmailAlias()).thenReturn(Collections.singletonList(clientStatus));
         List<ClientStatusDto> actualList = clientStatusService.findClientNameEmailStatus();
 
         assertEquals(3, actualList.get(0).getStatusId());
@@ -79,7 +75,6 @@ class ClientStatusServiceTest {
 
     @Test
     public void findClientNameEmailStatusMethodCheckByStatusIdIncorrectValuesTest() {
-        when(clientStatusDao.findNameEmailAlias()).thenReturn(Collections.singletonList(clientStatus));
         List<ClientStatusDto> actualList = clientStatusService.findClientNameEmailStatus();
 
         assertNotEquals(2, actualList.get(0).getStatusId());

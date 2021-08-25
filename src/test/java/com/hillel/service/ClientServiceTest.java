@@ -35,11 +35,11 @@ public class ClientServiceTest {
         client.setEmail("bb@yahoo.com");
         client.setPhone(380505273349L);
         client.setAbout("Bogdan is a housekeeper and works for Julia Roberts");
+        when(clientDao.findAllClients()).thenReturn(Collections.singletonList(client));
     }
 
     @Test
     public void findAllClientsMethodCheckBySizeCorrectValueTest() {
-        when(clientDao.findAllClients()).thenReturn(Collections.singletonList(client));
         List<ClientDto> actualList = clientService.findAllClients();
 
         assertEquals(1, actualList.size());
@@ -47,7 +47,6 @@ public class ClientServiceTest {
 
     @Test
     public void findAllClientsMethodCheckBySizeIncorrectValueTest() {
-        when(clientDao.findAllClients()).thenReturn(Collections.singletonList(client));
         List<ClientDto> actualList = clientService.findAllClients();
 
         assertNotSame(15, actualList.size());
@@ -55,7 +54,6 @@ public class ClientServiceTest {
 
     @Test
     public void findAllClientsMethodCheckByClientIdCorrectValueTest() {
-        when(clientDao.findAllClients()).thenReturn(Collections.singletonList(client));
         List<ClientDto> actualList = clientService.findAllClients();
 
         assertEquals(1, actualList.get(0).getId());
@@ -63,7 +61,6 @@ public class ClientServiceTest {
 
     @Test
     public void findAllClientsMethodCheckByClientIdIncorrectValueTest() {
-        when(clientDao.findAllClients()).thenReturn(Collections.singletonList(client));
         List<ClientDto> actualList = clientService.findAllClients();
 
         assertNotSame(15, actualList.get(0).getId());
@@ -71,7 +68,6 @@ public class ClientServiceTest {
 
     @Test
     public void findAllClientsMethodCheckByAgeCorrectValueTest() {
-        when(clientDao.findAllClients()).thenReturn(Collections.singletonList(client));
         List<ClientDto> actualList = clientService.findAllClients();
 
         assertTrue(actualList.get(0).getAge() == 32);
@@ -79,7 +75,6 @@ public class ClientServiceTest {
 
     @Test
     public void findAllClientsMethodCheckByAgeIncorrectValueTest() {
-        when(clientDao.findAllClients()).thenReturn(Collections.singletonList(client));
         List<ClientDto> actualList = clientService.findAllClients();
 
         assertNotEquals(18, actualList.get(0).getAge());
@@ -87,7 +82,6 @@ public class ClientServiceTest {
 
     @Test
     public void findAllClientsMethodCheckByNameCorrectValueTest() {
-        when(clientDao.findAllClients()).thenReturn(Collections.singletonList(client));
         List<ClientDto> actualList = clientService.findAllClients();
 
         assertSame("Bogdan", actualList.get(0).getName());
@@ -95,7 +89,6 @@ public class ClientServiceTest {
 
     @Test
     public void findAllClientsMethodCheckByNameIncorrectValueTest() {
-        when(clientDao.findAllClients()).thenReturn(Collections.singletonList(client));
         List<ClientDto> actualList = clientService.findAllClients();
 
         assertNotSame(" ", actualList.get(0).getAge());
@@ -103,7 +96,6 @@ public class ClientServiceTest {
 
     @Test
     public void findAllClientsMethodCheckByEmailCorrectValueTest() {
-        when(clientDao.findAllClients()).thenReturn(Collections.singletonList(client));
         List<ClientDto> actualList = clientService.findAllClients();
 
         assertEquals("bb@yahoo.com", actualList.get(0).getEmail());
@@ -111,7 +103,6 @@ public class ClientServiceTest {
 
     @Test
     public void findAllClientsMethodCheckByEmailIncorrectValueTest() {
-        when(clientDao.findAllClients()).thenReturn(Collections.singletonList(client));
         List<ClientDto> actualList = clientService.findAllClients();
 
         assertFalse(actualList.get(0).getEmail() == "wrong@mail.ru");
@@ -119,7 +110,6 @@ public class ClientServiceTest {
 
     @Test
     public void findAllClientsMethodCheckByPhoneCorrectValueTest() {
-        when(clientDao.findAllClients()).thenReturn(Collections.singletonList(client));
         List<ClientDto> actualList = clientService.findAllClients();
 
         assertTrue(actualList.get(0).getPhone() == 380505273349L);
@@ -127,7 +117,6 @@ public class ClientServiceTest {
 
     @Test
     public void findAllClientsMethodCheckByAboutCorrectValueTest() {
-        when(clientDao.findAllClients()).thenReturn(Collections.singletonList(client));
         List<ClientDto> actualList = clientService.findAllClients();
 
         assertSame("Bogdan is a housekeeper and works for Julia Roberts", actualList.get(0).getAbout());
@@ -135,7 +124,6 @@ public class ClientServiceTest {
 
     @Test
     public void findAllClientsMethodCheckByAboutIncorrectValueTest() {
-        when(clientDao.findAllClients()).thenReturn(Collections.singletonList(client));
         List<ClientDto> actualList = clientService.findAllClients();
 
         assertTrue(actualList.get(0).getAbout() != "Brrrrrrrr");

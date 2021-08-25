@@ -33,11 +33,11 @@ class AccountServiceTest {
         account.setClientId(1);
         account.setNumber("1237 8890 8765 1123");
         account.setValue(1043.88);
+        when(accountDao.findAllAccounts()).thenReturn(Collections.singletonList(account));
     }
 
     @Test
     public void findAllAccountsListCheckBySizeCorrectValueTest() {
-        when(accountDao.findAllAccounts()).thenReturn(Collections.singletonList(account));
         List<AccountDto> actualList = accountService.findAllAccounts();
 
         assertTrue(actualList.size() == 1);
@@ -45,7 +45,6 @@ class AccountServiceTest {
 
     @Test
     public void findAllAccountsMethodCheckBySizeIncorrectValueTest() {
-        when(accountDao.findAllAccounts()).thenReturn(Collections.singletonList(account));
         List<AccountDto> actualList = accountService.findAllAccounts();
 
         assertNotEquals(5, actualList.size());
@@ -55,7 +54,6 @@ class AccountServiceTest {
 
     @Test
     public void findAllAccountsMethodCheckByClientIdCorrectValueTest() {
-        when(accountDao.findAllAccounts()).thenReturn(Collections.singletonList(account));
         List<AccountDto> actualList = accountService.findAllAccounts();
 
         assertSame(1, actualList.get(0).getClientId());
@@ -63,7 +61,6 @@ class AccountServiceTest {
 
     @Test
     public void findAllAccountsMethodCheckByClientIdIncorrectValueTest() {
-        when(accountDao.findAllAccounts()).thenReturn(Collections.singletonList(account));
         List<AccountDto> actualList = accountService.findAllAccounts();
 
         assertFalse(actualList.get(0).getClientId() == 0);
@@ -71,7 +68,6 @@ class AccountServiceTest {
 
     @Test
     public void findAllAccountsMethodCheckByAccountIdCorrectValueTest() {
-        when(accountDao.findAllAccounts()).thenReturn(Collections.singletonList(account));
         List<AccountDto> actualList = accountService.findAllAccounts();
 
         assertEquals(1, actualList.get(0).getId());
@@ -79,7 +75,6 @@ class AccountServiceTest {
 
     @Test
     public void findAllAccountsMethodCheckByAccountIdIncorrectValueTest() {
-        when(accountDao.findAllAccounts()).thenReturn(Collections.singletonList(account));
         List<AccountDto> actualList = accountService.findAllAccounts();
 
         assertNotSame(10998, actualList.get(0).getId());
@@ -87,7 +82,6 @@ class AccountServiceTest {
 
     @Test
     public void findAllAccountsMethodCheckByAccountNumberCorrectValueTest() {
-        when(accountDao.findAllAccounts()).thenReturn(Collections.singletonList(account));
         List<AccountDto> actualList = accountService.findAllAccounts();
 
         assertEquals("1237 8890 8765 1123", actualList.get(0).getNumber());
@@ -95,7 +89,6 @@ class AccountServiceTest {
 
     @Test
     public void findAllAccountsMethodCheckByAccountNumberIncorrectValueTest() {
-        when(accountDao.findAllAccounts()).thenReturn(Collections.singletonList(account));
         List<AccountDto> actualList = accountService.findAllAccounts();
 
         assertFalse(actualList.get(0).getNumber() == "9999 8890");
@@ -103,7 +96,6 @@ class AccountServiceTest {
 
     @Test
     public void findAllAccountsMethodCheckByAccountValueCorrectValueTest() {
-        when(accountDao.findAllAccounts()).thenReturn(Collections.singletonList(account));
         List<AccountDto> actualList = accountService.findAllAccounts();
 
         assertEquals(1043.88, actualList.get(0).getValue());
@@ -111,7 +103,6 @@ class AccountServiceTest {
 
     @Test
     public void findAllAccountsMethodCheckByAccountValueIncorrectValueTest() {
-        when(accountDao.findAllAccounts()).thenReturn(Collections.singletonList(account));
         List<AccountDto> actualList = accountService.findAllAccounts();
 
         assertNotEquals(104388, actualList.get(0).getValue());

@@ -33,11 +33,11 @@ class StatusServiceTest {
         status.setId(2);
         status.setAlias("VIP");
         status.setDescription("Very Important Person");
+        when(statusDao.findAllStatuses()).thenReturn(Collections.singletonList(status));
     }
 
     @Test
     public void findAllStatusesMethodCheckBySizeCorrectValuesTest() {
-        when(statusDao.findAllStatuses()).thenReturn(Collections.singletonList(status));
         List<StatusDto> actualList = statusService.findAllStatuses();
 
         assertEquals(1, actualList.size());
@@ -45,7 +45,6 @@ class StatusServiceTest {
 
     @Test
     public void findAllStatusesMethodCheckBySizeIncorrectValuesTest() {
-        when(statusDao.findAllStatuses()).thenReturn(Collections.singletonList(status));
         List<StatusDto> actualList = statusService.findAllStatuses();
 
         assertNotSame(3, actualList.size());
@@ -53,7 +52,6 @@ class StatusServiceTest {
 
     @Test
     public void findAllStatusesMethodCheckByAliasCorrectValuesTest() {
-        when(statusDao.findAllStatuses()).thenReturn(Collections.singletonList(status));
         List<StatusDto> actualList = statusService.findAllStatuses();
 
         assertSame("VIP", actualList.get(0).getAlias());
@@ -61,7 +59,6 @@ class StatusServiceTest {
 
     @Test
     public void findAllStatusesMethodCheckByAliasIncorrectValuesTest() {
-        when(statusDao.findAllStatuses()).thenReturn(Collections.singletonList(status));
         List<StatusDto> actualList = statusService.findAllStatuses();
 
         assertNotSame("PREMIUM", actualList.get(0).getAlias());
@@ -70,7 +67,6 @@ class StatusServiceTest {
 
     @Test
     public void findAllStatusesMethodCheckByIdCorrectValuesTest() {
-        when(statusDao.findAllStatuses()).thenReturn(Collections.singletonList(status));
         List<StatusDto> actualList = statusService.findAllStatuses();
 
         assertEquals(2, actualList.get(0).getId());
@@ -78,7 +74,6 @@ class StatusServiceTest {
 
     @Test
     public void findAllStatusesMethodCheckByIdIncorrectValuesTest() {
-        when(statusDao.findAllStatuses()).thenReturn(Collections.singletonList(status));
         List<StatusDto> actualList = statusService.findAllStatuses();
 
         assertNotSame(1, actualList.get(0).getId());
@@ -87,7 +82,6 @@ class StatusServiceTest {
 
     @Test
     public void findAllStatusesMethodCheckByDescriptionCorrectValuesTest() {
-        when(statusDao.findAllStatuses()).thenReturn(Collections.singletonList(status));
         List<StatusDto> actualList = statusService.findAllStatuses();
 
         assertEquals("Very Important Person", actualList.get(0).getDescription());
@@ -95,7 +89,6 @@ class StatusServiceTest {
 
     @Test
     public void findAllStatusesMethodCheckByDescriptionIncorrectValuesTest() {
-        when(statusDao.findAllStatuses()).thenReturn(Collections.singletonList(status));
         List<StatusDto> actualList = statusService.findAllStatuses();
 
         assertNotSame("shsjsjjajak", actualList.get(0).getDescription());
