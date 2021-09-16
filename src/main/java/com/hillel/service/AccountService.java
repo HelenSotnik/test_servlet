@@ -7,8 +7,16 @@ import com.hillel.entity.Account;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hillel.service.util.LogServiceMessageUtil;
+import org.apache.log4j.Logger;
+
 public class AccountService {
-    private  AccountDao accountDao;
+
+    private static final Logger LOG = Logger.getLogger(AccountService.class.getName());
+    private static final String METHOD_NAME = "findAllAccounts()";
+    private static final String DAO = AccountDao.class.getName();
+
+    private AccountDao accountDao;
 
     public AccountService(AccountDao accountDao) {
         this.accountDao = accountDao;
@@ -26,6 +34,12 @@ public class AccountService {
             dto.setValue(account.getValue());
             result.add(dto);
         }
+
+        if (result == null) {
+            LOG.debug(LogServiceMessageUtil.getFailDebugMessage(METHOD_NAME, DAO));
+        }
+
+        LOG.info(LogServiceMessageUtil.getSuccessInfoMessage(METHOD_NAME, DAO));
         return result;
     }
 }
