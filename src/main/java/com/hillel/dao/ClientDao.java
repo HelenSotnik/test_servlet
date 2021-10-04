@@ -1,43 +1,61 @@
 package com.hillel.dao;
 
-import com.hillel.dao.util.LogDaoMessageUtil;
-import com.hillel.database.Database;
+import com.hillel.database.util.HibernatePropertiesUtil;
+import com.hillel.database.util.HibernateUtil;
 import com.hillel.entity.Client;
-import org.apache.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ClientDao {
-    private static final String SELECT_ALL = "SELECT * FROM clients";
-    private static final Logger LOG = Logger.getLogger(ClientDao.class.getName());
-    private static final String TABLE_NAME = "CLIENTS";
+    private static final String FROM_CLIENTS = "FROM clients";
+    private static final String PHONE_QUERY = "FROM clients where phone = :phone";
+    private static final String PHONE = "phone";
+
 
     public List<Client> findAllClients() {
-        List<Client> resultList = new ArrayList<>();
-        try ( Connection connection = Database.getConnection();
-              Statement statement = connection.createStatement();
-              ResultSet rs = statement.executeQuery(SELECT_ALL) ) {
-
-            while (rs.next()) {
-                Client client = new Client();
-                client.setId(rs.getInt("id"));
-                client.setName(rs.getString("name"));
-                client.setEmail(rs.getString("email"));
-                client.setPhone(rs.getLong("phone"));
-                client.setAbout(rs.getString("about"));
-                client.setAge(rs.getInt("age"));
-                resultList.add(client);
-            }
-            LOG.info(LogDaoMessageUtil.getSuccessInfoMessage(TABLE_NAME));
-
-        } catch (SQLException exception) {
-            LOG.debug(LogDaoMessageUtil.getFailDebugMessage(TABLE_NAME));
+        try ( Session session = HibernatePropertiesUtil.getSessionFactory().openSession() ) {
+            return session.createQuery(FROM_CLIENTS).list();
         }
-        return resultList;
+    }
+
+    public Client findById(Integer id) {
+        try ( Session session = HibernatePropertiesUtil.getSessionFactory().openSession() ) {
+            return session.byId(Client.class).getReference(id);
+        }
+    }
+
+    public void save(Client client) {
+        try ( Session session = HibernateUtil.getSessionFactory().openSession() ) {
+            Transaction transaction = session.beginTransaction();
+
+            session.save(client);
+            transaction.commit();
+        }
+    }
+
+    public void delete(Client client) {
+        try ( Session session = HibernateUtil.getSessionFactory().openSession() ) {
+            Transaction transaction = session.beginTransaction();
+
+            session.delete(client);
+            transaction.commit();
+        }
+    }
+
+    public void update(Client client) {
+        try ( Session session = HibernateUtil.getSessionFactory().openSession() ) {
+            Transaction transaction = session.beginTransaction();
+
+            session.update(client);
+            transaction.commit();
+        }
+    }
+
+    public List<Client> getByPhoneNumber(Long phone) {
+        try ( Session session = HibernatePropertiesUtil.getSessionFactory().openSession() ) {
+            return session.createQuery(PHONE_QUERY).setParameter(PHONE, phone).list();
+        }
     }
 }

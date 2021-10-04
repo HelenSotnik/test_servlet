@@ -1,40 +1,52 @@
 package com.hillel.dao;
 
-import com.hillel.dao.util.LogDaoMessageUtil;
-import com.hillel.database.Database;
+import com.hillel.database.util.HibernatePropertiesUtil;
+import com.hillel.database.util.HibernateUtil;
 import com.hillel.entity.Account;
-import org.apache.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
 public class AccountDao {
-    private static final String SELECT_ALL = "SELECT * FROM accounts";
-    private static final Logger LOG = Logger.getLogger(AccountDao.class.getName());
-    private static final String TABLE_NAME = "ACCOUNTS";
+    private static final String FROM_ACCOUNTS = "FROM accounts";
 
     public List<Account> findAllAccounts() {
-        List<Account> resultList = new ArrayList<>();
-        try ( Connection connection = Database.getConnection();
-              Statement statement = connection.createStatement();
-              ResultSet rs = statement.executeQuery(SELECT_ALL) ) {
-            while (rs.next()) {
-                Account account = new Account();
-                account.setId(rs.getInt("id"));
-                account.setClientId(rs.getInt("client_id"));
-                account.setNumber(rs.getString("number"));
-                account.setValue(rs.getDouble("value"));
-                resultList.add(account);
-            }
-            LOG.info(LogDaoMessageUtil.getSuccessInfoMessage(TABLE_NAME));
-
-        } catch (SQLException exception) {
-            LOG.debug(LogDaoMessageUtil.getFailDebugMessage(TABLE_NAME));
+        try (Session session = HibernatePropertiesUtil.getSessionFactory().openSession()) {
+            return session.createQuery(FROM_ACCOUNTS).list();
         }
-        return resultList;
+    }
+
+    public Account findById(Integer id) {
+        try ( Session session = HibernatePropertiesUtil.getSessionFactory().openSession() ) {
+            return session.byId(Account.class).getReference(id);
+        }
+    }
+
+    public void save(Account account) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+
+            session.save(account);
+            transaction.commit();
+        }
+    }
+
+    public void delete(Account account) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+
+            session.delete(account);
+            transaction.commit();
+        }
+    }
+
+    public void update(Account account) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+
+            session.update(account);
+            transaction.commit();
+        }
     }
 }
