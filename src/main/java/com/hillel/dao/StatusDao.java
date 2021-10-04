@@ -1,7 +1,9 @@
 package com.hillel.dao;
 
+import com.hillel.dao.util.LogDaoMessageUtil;
 import com.hillel.database.Database;
 import com.hillel.entity.Status;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -12,6 +14,8 @@ import java.util.List;
 
 public class StatusDao {
     private static final String SELECT_ALL = "SELECT * FROM statuses";
+    private static final Logger LOG = Logger.getLogger(StatusDao.class.getName());
+    private static final String TABLE_NAME = "STATUSES";
 
     public List<Status> findAllStatuses() {
         List<Status> resultList = new ArrayList<>();
@@ -26,8 +30,10 @@ public class StatusDao {
                 status.setDescription(rs.getString("description"));
                 resultList.add(status);
             }
+            LOG.info(LogDaoMessageUtil.getSuccessInfoMessage(TABLE_NAME));
+
         } catch (SQLException exception) {
-            exception.printStackTrace();
+            LOG.debug(LogDaoMessageUtil.getFailDebugMessage(TABLE_NAME));
         }
         return resultList;
     }
