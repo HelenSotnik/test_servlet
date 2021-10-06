@@ -2,6 +2,7 @@ package com.hillel.database.util;
 
 import com.hillel.entity.Account;
 import com.hillel.entity.Client;
+import com.hillel.entity.PersonalData;
 import com.hillel.entity.Status;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -21,7 +22,7 @@ public class HibernateUtil {
 
                 Properties settings = new Properties();
                 settings.put(Environment.DRIVER, "org.postgresql.Driver");
-                settings.put(Environment.URL, "jdbc:postgresql://localhost:5434/postgres");
+                settings.put(Environment.URL, "jdbc:postgresql://localhost:5435/postgres");
                 settings.put(Environment.USER, "postgres");
                 settings.put(Environment.PASS, "hillel2020");
                 settings.put(Environment.DIALECT, "org.hibernate.dialect.PostgreSQL9Dialect");
@@ -37,6 +38,7 @@ public class HibernateUtil {
                 configuration.addAnnotatedClass(Account.class);
                 configuration.addAnnotatedClass(Status.class);
                 configuration.addAnnotatedClass(Client.class);
+                configuration.addAnnotatedClass(PersonalData.class);
 
                 ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                         .applySettings(configuration.getProperties()).build();

@@ -9,7 +9,7 @@ import org.hibernate.Transaction;
 import java.util.List;
 
 public class StatusDao {
-    private static final String FROM_STATUSES = "FROM statuses";
+    private static final String FROM_STATUSES = "FROM Status";
 
     public List<Status> findAllStatuses() {
         try ( Session session = HibernatePropertiesUtil.getSessionFactory().openSession() ) {

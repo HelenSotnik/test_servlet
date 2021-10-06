@@ -1,18 +1,18 @@
 package com.hillel.entity;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
-@Data
+@Setter
+@Getter
 @Entity
 @Table(name = "accounts")
 public class Account {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-
-    @Column(name = "client_id", nullable = false)
-    private int clientId;
 
     @Column(unique = true, nullable = false)
     private String number;
@@ -20,6 +20,16 @@ public class Account {
     @Column(nullable = false)
     private double value;
 
-    public Account() {
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "client_id")
+    private Client client;
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", number='" + number + '\'' +
+                ", value=" + value +
+                '}';
     }
 }

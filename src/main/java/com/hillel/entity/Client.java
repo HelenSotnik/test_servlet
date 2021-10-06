@@ -1,14 +1,20 @@
 package com.hillel.entity;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.Set;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Entity
 @Table(name = "clients")
 public class Client {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @Column
@@ -23,12 +29,24 @@ public class Client {
     @Column
     private String about;
 
+    @Column
     private int age;
 
-    public Client() {
-    }
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "client_status",
+            joinColumns = {@JoinColumn(name = "client_id")},
+            inverseJoinColumns = {@JoinColumn(name = "status_id")})
+    private Set<Status> statuses;
 
-    public Client(String name) {
-        this.name = name;
+    @OneToMany(mappedBy = "client",
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL)
+    private Set<Account> accounts;
+
+    @OneToOne(mappedBy = "client", cascade = CascadeType.ALL)
+    private PersonalData personalData;
+
+    public Client() {
     }
 }

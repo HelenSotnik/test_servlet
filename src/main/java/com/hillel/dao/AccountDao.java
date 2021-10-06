@@ -9,7 +9,7 @@ import org.hibernate.Transaction;
 import java.util.List;
 
 public class AccountDao {
-    private static final String FROM_ACCOUNTS = "FROM accounts";
+    private static final String FROM_ACCOUNTS = "FROM Account";
 
     public List<Account> findAllAccounts() {
         try (Session session = HibernatePropertiesUtil.getSessionFactory().openSession()) {

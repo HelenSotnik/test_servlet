@@ -2,60 +2,51 @@ package com.hillel.dao;
 
 import com.hillel.database.util.HibernatePropertiesUtil;
 import com.hillel.database.util.HibernateUtil;
-import com.hillel.entity.Client;
+import com.hillel.entity.PersonalData;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.util.List;
 
-public class ClientDao {
-    private static final String FROM_CLIENTS = "FROM Client";
-    private static final String PHONE_QUERY = "FROM Client where phone = :phone";
-    private static final String PHONE = "phone";
+public class PersonalDataDao {
+    private static final String FROM_PERSONAL_DATA = "FROM PersonalData";
 
-
-    public List<Client> findAllClients() {
+    public List<PersonalData> findAllPersonalData() {
         try ( Session session = HibernatePropertiesUtil.getSessionFactory().openSession() ) {
-            return session.createQuery(FROM_CLIENTS).list();
+            return session.createQuery(FROM_PERSONAL_DATA).list();
         }
     }
 
-    public Client findById(Integer id) {
+    public PersonalData findById(Integer id) {
         try ( Session session = HibernatePropertiesUtil.getSessionFactory().openSession() ) {
-            return session.byId(Client.class).getReference(id);
+            return session.byId(PersonalData.class).getReference(id);
         }
     }
 
-    public void save(Client client) {
+    public void save(PersonalData personalData) {
         try ( Session session = HibernateUtil.getSessionFactory().openSession() ) {
             Transaction transaction = session.beginTransaction();
 
-            session.save(client);
+            session.save(personalData);
             transaction.commit();
         }
     }
 
-    public void delete(Client client) {
+    public void delete(PersonalData personalData) {
         try ( Session session = HibernateUtil.getSessionFactory().openSession() ) {
             Transaction transaction = session.beginTransaction();
 
-            session.delete(client);
+            session.delete(personalData);
             transaction.commit();
         }
     }
 
-    public void update(Client client) {
+    public void update(PersonalData personalData) {
         try ( Session session = HibernateUtil.getSessionFactory().openSession() ) {
             Transaction transaction = session.beginTransaction();
 
-            session.update(client);
+            session.update(personalData);
             transaction.commit();
-        }
-    }
-
-    public List<Client> findClientByPhoneNumber(Long phone) {
-        try ( Session session = HibernatePropertiesUtil.getSessionFactory().openSession() ) {
-            return session.createQuery(PHONE_QUERY).setParameter(PHONE, phone).list();
         }
     }
 }
