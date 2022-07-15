@@ -65,20 +65,6 @@ class StatusServiceTest {
         assertFalse(actualList.get(0).getAlias() == "STANDAND");
     }
 
-    @Test
-    public void findAllStatusesMethodCheckByIdCorrectValuesTest() {
-        List<StatusDto> actualList = statusService.findAllStatuses();
-
-        assertEquals(2, actualList.get(0).getId());
-    }
-
-    @Test
-    public void findAllStatusesMethodCheckByIdIncorrectValuesTest() {
-        List<StatusDto> actualList = statusService.findAllStatuses();
-
-        assertNotSame(1, actualList.get(0).getId());
-        assertNotEquals(3, actualList.get(0).getId());
-    }
 
     @Test
     public void findAllStatusesMethodCheckByDescriptionCorrectValuesTest() {
