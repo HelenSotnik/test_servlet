@@ -1,34 +1,52 @@
 package com.hillel.dao;
 
-import com.hillel.database.Database;
+import com.hillel.database.util.HibernatePropertiesUtil;
+import com.hillel.database.util.HibernateUtil;
 import com.hillel.entity.Status;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
 public class StatusDao {
-    private static final String SELECT_ALL = "SELECT * FROM statuses";
+    private static final String FROM_STATUSES = "FROM Status";
 
     public List<Status> findAllStatuses() {
-        List<Status> resultList = new ArrayList<>();
-        try ( Connection connection = Database.getConnection();
-              Statement statement = connection.createStatement();
-              ResultSet rs = statement.executeQuery(SELECT_ALL) ) {
-
-            while (rs.next()) {
-                Status status = new Status();
-                status.setId(rs.getInt("id"));
-                status.setAlias(rs.getString("alias"));
-                status.setDescription(rs.getString("description"));
-                resultList.add(status);
-            }
-        } catch (SQLException exception) {
-            exception.printStackTrace();
+        try ( Session session = HibernatePropertiesUtil.getSessionFactory().openSession() ) {
+            return session.createQuery(FROM_STATUSES).list();
         }
-        return resultList;
+    }
+
+    public Status findById(Integer id) {
+        try ( Session session = HibernatePropertiesUtil.getSessionFactory().openSession() ) {
+            return session.byId(Status.class).getReference(id);
+        }
+    }
+
+    public void save(Status status) {
+        try ( Session session = HibernateUtil.getSessionFactory().openSession() ) {
+            Transaction transaction = session.beginTransaction();
+
+            session.save(status);
+            transaction.commit();
+        }
+    }
+
+    public void delete(Status status) {
+        try ( Session session = HibernateUtil.getSessionFactory().openSession() ) {
+            Transaction transaction = session.beginTransaction();
+
+            session.delete(status);
+            transaction.commit();
+        }
+    }
+
+    public void update(Status status) {
+        try ( Session session = HibernateUtil.getSessionFactory().openSession() ) {
+            Transaction transaction = session.beginTransaction();
+
+            session.update(status);
+            transaction.commit();
+        }
     }
 }

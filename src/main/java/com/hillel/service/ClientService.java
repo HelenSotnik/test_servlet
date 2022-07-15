@@ -3,11 +3,17 @@ package com.hillel.service;
 import com.hillel.dao.ClientDao;
 import com.hillel.dto.ClientDto;
 import com.hillel.entity.Client;
+import com.hillel.service.util.LogServiceMessageUtil;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ClientService {
+    private static final Logger LOG = Logger.getLogger(ClientService.class.getName());
+    private static final String METHOD_NAME = "findAllClients()";
+    private static final String DAO = ClientDao.class.getName();
+
     private ClientDao clientDao;
 
     public ClientService(ClientDao clientDao) {
@@ -29,6 +35,11 @@ public class ClientService {
 
             result.add(dto);
         }
+        if (result == null) {
+            LOG.debug(LogServiceMessageUtil.getFailDebugMessage(METHOD_NAME, DAO));
+        }
+
+        LOG.info(LogServiceMessageUtil.getSuccessInfoMessage(METHOD_NAME, DAO));
         return result;
     }
 }
